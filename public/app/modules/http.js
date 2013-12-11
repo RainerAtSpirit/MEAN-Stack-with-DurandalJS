@@ -1,31 +1,27 @@
 /**
  * Created by marnel on 12/10/13.
  */
-define(['plugins/http', 'jquery', 'knockout'], function(http, $, ko){
-    var _this = this;
+define(['plugins/http', 'jquery', 'knockout'], function(durandalHttp, $, ko ) {
 
-    var _http = {
-        put: function(url, data) {
-            return $.ajax({
-                url: url,
-                data: ko.toJSON(data),
-                type: 'PUT',
-                contentType: 'application/json',
-                dataType: 'json'
-            });
+    var ajaxSettings = {
+        url: url,
+        data: ko.toJSON(data),
+        contentType: 'application/json',
+        dataType: 'json'
+    };
+    var http = {
+        put: function( url, data ) {
+            return $.ajax(
+                $.extend(ajaxSettings, {type: 'PUT'})
+            );
         },
-        delete: function(url, data) {
-            return $.ajax({
-                url: url,
-                data: ko.toJSON(data),
-                type: 'DELETE',
-                contentType: 'application/json',
-                dataType: 'json'
-            });
+        delete: function( url, data ) {
+            return $.ajax(
+                $.extend(ajaxSettings, {type: 'DELETE'})
+            );
         }
     };
-    $.extend(_http, http);
-    //debugger;
-    return _http;
 
+
+    return  $.extend(true, {}, durandalHttp, http);
 });
